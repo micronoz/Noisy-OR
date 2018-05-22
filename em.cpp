@@ -32,7 +32,7 @@ long double calculateLog(vector<long double>& arr, vector<vector<int> >& arr2, v
         total2 = double(1-arr3[j]) * log(cpt);
         totalF += total + total2;
     }
-    cout << mistakes << " Log Likelihood: ";
+    cout << " Mistakes: " << mistakes;
     return ((totalF) / double(arr2.size()));
 }
 
@@ -89,10 +89,12 @@ end:;
             prob2Arr.push_back(total / count); 
         }
         //calculateLog(probArr, xArr, n);
-        cout << "Iteration: " << it << " Mistakes: "<<calculateLog(probArr, xArr, yArr, n) << endl;
+        /*cout << "Iteration: " << it;
+        cout << " Log Likelihood: "<< calculateLog(probArr, xArr, yArr, n) << endl;*/
         probArr = prob2Arr;
     }
-    cout << "Iteration: " << 512 << " Mistakes: "<<calculateLog(probArr, xArr, yArr, n) << endl;
+    /*cout << "Iteration: " << 512 ;
+    cout << " Log Likelihood: "<< calculateLog(probArr, xArr, yArr, n) << endl;*/
 
     int l = 1;
     for (auto it = probArr.begin(); it != probArr.end(); it++) {

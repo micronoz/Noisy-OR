@@ -13,7 +13,7 @@
 using namespace std;
 
 
-bool myCompare(pair<string, long double>& a, pair<string,long double>& b) {
+bool myCompare(pair<string, long double>& a, pair<string, long double>& b) {
     return a.second < b.second;
 }
 int main(int argc, char* agrv[]) {
@@ -29,6 +29,7 @@ int main(int argc, char* agrv[]) {
         movies.push_back(make_pair(k, 0));
     }
 
+    cout << endl << "--------------------PART A-----------------------" << endl << endl;
     int studentCount = 117;
     int movieCount = 61;
     string s = "";
@@ -105,9 +106,10 @@ int main(int argc, char* agrv[]) {
         file2 >> l;
         zProb.push_back(l);  
     }
-
+    cout << endl <<"-------------------------PART E-------------------------" << endl << endl;
+    vector<vector<long double> > pIt(studentCount);
     for (int i = 0; i < numIter+1; i++) {
-    vector<vector<long double> > zProb4(studentCount);
+        vector<vector<long double> > zProb4(studentCount);
         cout << "Iteration " << i << ": ";
         long double logLikelihood = 0.0;
         for (int t = 0; t < studentCount; t++) {
@@ -190,10 +192,33 @@ next:
                 rGivenZ2[c].push_back((total1 + total2)/total3);
             }
         }
-        rGivenZ = rGivenZ2;
+        if (i != 128) {
+            rGivenZ = rGivenZ2;
+            pIt = zProb4;
+        }
 
         //for (auto it = rGivenZ[0].begin(); it != rGivenZ[0].end(); it++)
         //cout << *it << endl;
 
+    }
+recommend:
+    int myId = 69;
+    vector<pair<string, long double> > personalRec;
+    for (int m = 0; m < movieCount; m++) {
+        long double total = 0.0;
+        if (studentRatings[myId][m] == -1) {
+            for (int c = 0; c < categories; c++) {
+                total += pIt[myId][c] * rGivenZ[c][m];
+
+            }
+            personalRec.push_back(make_pair(movies[m].first, total));
+        }
+    }
+
+    cout << endl<<"-----------------------PART F--------------------" << endl << endl;
+    sort(personalRec.begin(), personalRec.end(), myCompare);
+
+    for (auto it = personalRec.begin(); it != personalRec.end(); it++) {
+        cout << "Movie: " << it->first << " -------- with rating: " << it->second << endl;
     }
 }
